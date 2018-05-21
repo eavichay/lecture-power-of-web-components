@@ -2,12 +2,22 @@ import template from './template';
 import Base from './Base';
 import attribute from './attribute'
 import connect, { dispatch } from './connect'
+import sharedStyles from './sharedStyles'
 
 @template(`
-    <h1>Hello {fullName}</h1>
+    <div class="jumbotron">
+    <h1>Simple text binding demo</h1>
+    <h4>Binding to a single property: Hello {fullName}</h4>
     <input id="inpFirst" type="text" placeholder="Enter your first name" />
     <input id="inpLast" type="text" placeholder="Enter your last name" />
-    <div>Another text node with nested values {user.first}, {user.last}</div>
+    </div>
+    <div>
+        <h5>Binding to multiple properties with deep nesting</h5>
+        Another text node with nested values and multiple properties:
+        <br/>
+        The text field is bound to { { user.first } } and { { user.last } }
+        {user.first}, {user.last}
+    </div>
     <hr />
     <div>This comes from attributes: {firstName}, {lastName}</div>
     <template if="user.myBoolean">
@@ -17,20 +27,16 @@ import connect, { dispatch } from './connect'
     </template>
     <button id="toggleButton">Toggle</button>
     <hr/>
-    <h2>Type your email</h2>
+    <h4>Type your email</h4>
     <input id="inpEmail" type="email" />
     <button id="emailButton">Update email</button>
-    <h3>Your email is {user.email}</h3>
+    <h5>Your email is {user.email}</h5>
 `)
+@sharedStyles('https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/4.1.1/css/bootstrap.css')
 class MyApp extends Base {
 
   constructor () {
     super()
-    this.user = {
-      first: '',
-      last: '',
-      myBoolean: false
-    }
     this.items = ['Apple', 'Banana', 'Juice']
     this.myBoolean = true
     this.fullName = ''

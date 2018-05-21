@@ -9,7 +9,7 @@ export default class Base extends HTMLElement {
     this.__bindings = {}
     this.attachShadow({mode:'open'})
     if (this.template) {
-      this.render(this.template)
+      window.requestAnimationFrame(() => this.render(this.template))
     }
   }
 
@@ -45,17 +45,25 @@ export default class Base extends HTMLElement {
     const content = tpl.content.cloneNode(true)
     traverse.call(this, content)
     Object.keys(this.__bindings).forEach(key => {
+      this.__values[key] = this[key]
       Object.defineProperty(this, key, {
         configurable: true,
-        get: () => this.__values[key],
-        set: (v) => {
+        get: function () { return this.__values[key] },
+        set: function (v) {
           this.__values[key] = v
           this.update(key)
+          return v
         }
       })
     })
     this.shadowRoot.innerHTML = ''
     this.shadowRoot.appendChild(content)
+    const { sharedStyles } = this.constructor
+    if (sharedStyles) {
+      const style = document.createElement('style')
+      style.textContent = sharedStyles.textContent
+      this.shadowRoot.appendChild(style)
+    }
     this.componentDidRender()
   }
 

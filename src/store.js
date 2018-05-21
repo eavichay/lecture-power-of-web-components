@@ -1,6 +1,10 @@
-import { createStore, combineReducers } from 'redux';
+import { createStore, combineReducers, applyMiddleware } from 'redux';
 
-const user = (state = {}, action) => {
+const user = (state = {
+  first: '',
+  last: '',
+  email: ''
+}, action) => {
   if (action && action.type === 'SET_EMAIL') {
     state.email = action.data
   }
@@ -9,8 +13,10 @@ const user = (state = {}, action) => {
 
 const store = createStore(
   combineReducers({
-    user
-  })
+    user,
+  }),
+  {},
+  window.__REDUX_DEVTOOLS_EXTENSION__(),
 )
 
 
