@@ -33,10 +33,16 @@ export default class Base extends HTMLElement {
     }
   }
 
+  connectedCallback() {
+    this.dispatchEvent(new Event('connected'))
+  }
+
+  disconnectedCallback() {
+    this.dispatchEvent(new Event('disconnected'))
+  }
+
   render (tpl) {
     const content = tpl.content.cloneNode(true)
-    this.__values = {}
-    this.__bindings = {}
     traverse.call(this, content)
     Object.keys(this.__bindings).forEach(key => {
       Object.defineProperty(this, key, {

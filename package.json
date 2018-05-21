@@ -10,6 +10,7 @@
   "license": "ISC",
   "dependencies": {
     "@polymer/polymer": "^3.0.2",
+    "redux": "^4.0.0",
     "slim-js": "^3.2.9"
   },
   "devDependencies": {

@@ -1,6 +1,7 @@
 import template from './template';
 import Base from './Base';
 import attribute from './attribute'
+import connect, { dispatch } from './connect'
 
 @template(`
     <h1>Hello {fullName}</h1>
@@ -14,10 +15,12 @@ import attribute from './attribute'
         <div>Value is TRUE and your name is {fullName}</div>
         <hr/>
     </template>
-    <template repeat="items">
-        <div>{item}</div>
-    </template>
-    <button>Toggle</button>
+    <button id="toggleButton">Toggle</button>
+    <hr/>
+    <h2>Type your email</h2>
+    <input id="inpEmail" type="email" />
+    <button id="emailButton">Update email</button>
+    <h3>Your email is {user.email}</h3>
 `)
 class MyApp extends Base {
 
@@ -40,6 +43,9 @@ class MyApp extends Base {
   @attribute
   lastName
 
+  @connect('user')
+  user
+
   componentDidRender() {
     const inpFirst = this.find('#inpFirst')
     const inpLast = this.find('#inpLast')
@@ -49,10 +55,19 @@ class MyApp extends Base {
       this.fullName = inpFirst.value + ' ' + inpLast.value
       this.update('user')
     }
-    const button = this.find('button')
+    const button = this.find('#toggleButton')
     button.onclick = () => {
       this.user.myBoolean = !this.user.myBoolean
       this.update('user')
+    }
+
+    const emailButton = this.find('#emailButton')
+    emailButton.onclick = () => {
+      const email = this.find('#inpEmail').value
+      dispatch({
+        type: 'SET_EMAIL',
+        data: email
+      })
     }
   }
 }
