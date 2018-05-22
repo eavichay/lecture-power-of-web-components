@@ -59,21 +59,22 @@ export default function traverse(node) {
         if (node.hasAttribute('if')) {
           const path = node.getAttribute('if').split('.')
           const prop = path[0]
-          let entries = []
+          let entries
           this.__bindings[prop] = this.__bindings[prop] || []
           this.__bindings[prop].push(node)
           node.__bind = () => {
             const value = lookup(this, path)
-            if (value) {
-              const clone = node.content.cloneNode(true)
-              entries = [...clone.children]
-              traverse.call(this, clone)
-              node.parentNode.insertBefore(clone, node)
-            } else {
+            if (!value && entries) {
               for (const entry of entries) {
                 unbind.call(this, entry)
                 entry.remove()
               }
+              entries = undefined
+            } else if (value && !entries) {
+              const clone = node.content.cloneNode(true)
+              entries = [...clone.children]
+              traverse.call(this, clone)
+              node.parentNode.insertBefore(clone, node)
             }
           }
         }

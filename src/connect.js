@@ -6,7 +6,7 @@ export default function connect(namespace) {
 
     descriptor.initializer = function () {
       const update = () => {
-        this.__values[key] = this[key] = store.getState()[namespace]
+        if (!this.__values[key]) this.__values[key] = this[key] = store.getState()[namespace]
         this.update(key)
       }
 
@@ -16,6 +16,7 @@ export default function connect(namespace) {
         }
         unsubscribe = store.subscribe(update)
         update()
+        // update()
       })
       this.addEventListener('disconnected', () => unsubscribe())
 
