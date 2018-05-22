@@ -9,6 +9,7 @@ export default class Base extends HTMLElement {
     this.__bindings = {}
     this.attachShadow({mode:'open'})
     if (this.template) {
+      // this.render(this.template)
       window.requestAnimationFrame(() => this.render(this.template))
     }
   }

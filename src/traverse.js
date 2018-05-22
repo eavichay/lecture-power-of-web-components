@@ -68,7 +68,7 @@ export default function traverse(node) {
               const clone = node.content.cloneNode(true)
               entries = [...clone.children]
               traverse.call(this, clone)
-              this.shadowRoot.insertBefore(clone, node)
+              node.parentNode.insertBefore(clone, node)
             } else {
               for (const entry of entries) {
                 unbind.call(this, entry)

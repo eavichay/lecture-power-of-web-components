@@ -3,7 +3,7 @@ import { createStore, combineReducers, applyMiddleware } from 'redux';
 const user = (state = {
   first: '',
   last: '',
-  email: ''
+  email: 'nobody@no.where'
 }, action) => {
   if (action && action.type === 'SET_EMAIL') {
     state.email = action.data

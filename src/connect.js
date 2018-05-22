@@ -6,7 +6,8 @@ export default function connect(namespace) {
 
     descriptor.initializer = function () {
       const update = () => {
-        this[key] = store.getState()[namespace]
+        this.__values[key] = this[key] = store.getState()[namespace]
+        this.update(key)
       }
 
       this.addEventListener('connected', () => {
@@ -17,6 +18,8 @@ export default function connect(namespace) {
         update()
       })
       this.addEventListener('disconnected', () => unsubscribe())
+
+      // store.dispatch({type:'_COMPONENT_INITIALIZED'})
     }
     descriptor.configurable = true
     descriptor.writable = true
