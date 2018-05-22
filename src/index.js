@@ -6,6 +6,9 @@ import sharedStyles from './sharedStyles'
 
 import './typescript/super-toast.ts'
 import './typescript/popup-menu.ts'
+import './router/router-outlet.ts'
+import './pages/route-profile'
+import './pages/route-home'
 
 @template(`
     
@@ -64,6 +67,37 @@ import './typescript/popup-menu.ts'
           <li>Eat Sushi</li>
           <li>Throw away react</li>
       </popup-menu>
+    </div>
+    <hr/>
+    <div class="jumbotron">
+      <h2>Routing with web components?</h2>
+      <router-outlet>
+          <route path="profile/:userId" component="route-profile"></route>
+          <route path="home" component="route-home"></route>
+          
+          <div slot="header">
+            <ul class="nav nav-pills">
+              <li class="nav-item">
+                <a class="nav-link" href="#/home">Home</a>
+              </li>
+              <li class="nav-item">
+                <a class="nav-link" href="#/profile/eavichay">Avichay's Profile Page</a>
+              </li>
+              <li class="nav-item">
+                <a class="nav-link" href="#/profile/valadj">Valadj's profile page</a>
+              </li>
+              <li class="nav-item">
+                <a class="nav-link disabled" href="#/non-existing-page">Unknown page</a>
+              </li>
+            </ul>
+          </div>
+          <blockquote class="blockquote" slot="footer">
+            <footer>
+              The source code can be found
+              <a href="https://github.com/eavichay/lecture-power-of-web-components" target="_blank">in github</a>
+            </footer>
+          </blockquote>
+      </router-outlet>
     </div>
 `)
 @sharedStyles('https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/4.1.1/css/bootstrap.css')
