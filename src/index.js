@@ -1,5 +1,8 @@
 import Base from './Base';
+import sharedStyles, { mySharedStyles } from './sharedStyles'
 
+
+@sharedStyles(mySharedStyles)
 class MyApp extends Base {
 
   get template() {
@@ -10,7 +13,6 @@ class MyApp extends Base {
         <hr />
         <x-greeting data-name="Javascript Israel"></x-greeting>
       </div>
-      <style>@import url('https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/4.1.1/css/bootstrap.css')</style>
     `
   }
 
@@ -21,11 +23,12 @@ class MyApp extends Base {
   }
 }
 
+@sharedStyles(mySharedStyles)
 class Greeting extends Base {
   get template () {
     return `
       <div>Hello there, <span>${this.dataset.name}</span> !!!</div>
-      <style>@import url('https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/4.1.1/css/bootstrap.css')</style>
+      <button class="btn btn-default">Thank you</button>
     `
   }
 

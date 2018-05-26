@@ -29,6 +29,12 @@ export default class Base extends HTMLElement {
     const content = tpl.content.cloneNode(true)
     this.shadowRoot.innerHTML = ''
     this.shadowRoot.appendChild(content)
+
+    const { sharedStyles } = this.constructor
+    if (sharedStyles) {
+      this.shadowRoot.appendChild(sharedStyles)
+    }
+
     this.componentDidRender()
   }
 
