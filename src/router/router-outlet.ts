@@ -30,6 +30,7 @@ class RouterOutlet extends Slim {
 
     protected onCreated () {
         this.scanRoutes()
+        this.onRoute_(<HashChangeEvent>{newURL: window.location.href})
     }
 
     private routeMap:Object = {}
