@@ -4,18 +4,19 @@ import attribute from "../attribute";
 
 @tag('popup-menu')
 @template(`
-<span s:id="trigger" click="triggerClick">
+<span s:id="trigger" mousedown="triggerClick">
     <i class="material-icons" bind>{{iconType}}</i>
 </span>
-<div s:id="content" bind:is-visible="isOpen" click="triggerClick">
+<div s:id="content" bind:is-visible="isOpen" mouseup="triggerClick">
     <ul><slot></slot></ul>
 </div>
 <style>
     @import url('https://fonts.googleapis.com/icon?family=Material+Icons');
 
     :host {
-        display: block;
+        display: inline-flex;
         position: relative;
+        user-select: none;
     }
     
     i:hover {
@@ -32,6 +33,7 @@ import attribute from "../attribute";
         background: var(--light);
         border: 1px solid black;
         border-radius: 0.5rem;
+        white-space: nowrap;
     }
     
     div[is-visible="true"] {
@@ -48,6 +50,7 @@ import attribute from "../attribute";
         text-overflow: ellipsis;
         margin-top: 0.2rem;
         margin-bottom: 0.2rem;
+        user-select: none;
     }
     
     ::slotted(li:hover) {
@@ -66,7 +69,7 @@ export default class PopupMenu extends Slim {
     @attribute
     public iconType:String
 
-    triggerClick(event:MouseEvent):void {
+    private triggerClick(event:MouseEvent):void {
         this.isOpen = !this.isOpen
     }
 
@@ -78,11 +81,11 @@ export default class PopupMenu extends Slim {
     }
 
     onAdded () {
-        window.addEventListener('mousedown', this.anyClick_)
+        window.addEventListener('mouseup', this.anyClick_)
     }
 
     onRemoved () {
-        window.removeEventListener('mousedown', this.anyClick_)
+        window.removeEventListener('mouseup', this.anyClick_)
     }
 
 

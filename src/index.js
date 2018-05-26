@@ -121,9 +121,9 @@ class MyApp extends Base {
   user
 
   componentDidRender() {
-    const menuItems = this.shadowRoot.querySelectorAll('li')
+    const menuItems = this.shadowRoot.querySelectorAll('popup-menu > li')
     menuItems.forEach(li => {
-      li.onclick = () => {
+      li.onmouseup = () => {
         const toast = document.createElement('super-toast')
         toast.setAttribute('message', `Command sent: ${li.textContent}!`)
         toast.setAttribute('delay', '2500')
