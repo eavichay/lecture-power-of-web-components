@@ -1,5 +1,5 @@
-import { dashToCamel } from './case'
 import traverse from './traverse'
+import { dashToCamel } from './case'
 
 export default class Base extends HTMLElement {
 
@@ -34,13 +34,6 @@ export default class Base extends HTMLElement {
     }
   }
 
-  connectedCallback() {
-    this.dispatchEvent(new Event('connected'))
-  }
-
-  disconnectedCallback() {
-    this.dispatchEvent(new Event('disconnected'))
-  }
 
   render (tpl) {
     const content = tpl.content.cloneNode(true)
@@ -61,9 +54,7 @@ export default class Base extends HTMLElement {
     this.shadowRoot.appendChild(content)
     const { sharedStyles } = this.constructor
     if (sharedStyles) {
-      const style = document.createElement('style')
-      style.textContent = sharedStyles.textContent
-      this.shadowRoot.appendChild(style)
+      this.shadowRoot.appendChild(sharedStyles)
     }
     this.componentDidRender()
   }

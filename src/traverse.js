@@ -7,21 +7,6 @@ export function lookup(target, path) {
   return o
 }
 
-function unbind(node) {
-  if (node.__bindings) {
-    Object.keys(node.__bindings).forEach(key => {
-      const arr = this.__bindings[key] || []
-      const idx = arr.indexOf(node)
-      if (idx >= 0) {
-        arr.splice(idx, 1)
-      }
-    })
-  }
-  for (const child of node.childNodes) {
-    unbind.call(this, child)
-  }
-}
-
 export default function traverse(node) {
   switch (node.nodeType) {
     case Node.TEXT_NODE:
@@ -51,33 +36,6 @@ export default function traverse(node) {
           node.textContent = result
         }
         node.__bind()
-      }
-      break;
-
-    case Node.ELEMENT_NODE:
-      if (node.localName === 'template') {
-        if (node.hasAttribute('if')) {
-          const path = node.getAttribute('if').split('.')
-          const prop = path[0]
-          let entries
-          this.__bindings[prop] = this.__bindings[prop] || []
-          this.__bindings[prop].push(node)
-          node.__bind = () => {
-            const value = lookup(this, path)
-            if (!value && entries) {
-              for (const entry of entries) {
-                unbind.call(this, entry)
-                entry.remove()
-              }
-              entries = undefined
-            } else if (value && !entries) {
-              const clone = node.content.cloneNode(true)
-              entries = [...clone.children]
-              traverse.call(this, clone)
-              node.parentNode.insertBefore(clone, node)
-            }
-          }
-        }
       }
       break;
   }
